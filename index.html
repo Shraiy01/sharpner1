@@ -1,84 +1,37 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Registration Form</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-
-    <style>
-           * {
-             margin: 0;
-             padding: 0;
-             box-sizing: border-box;
-}
-        body{
-           
-         
-           background-color:#ccc;
-           
-           
-            
-        }
-        form{
-             border: 1px solid black;
-             max-width: 700px;
-             margin: auto;
-             height: auto;
-             background-color: white;
-             padding: 15px;
-             display: flex;
-             justify-content: center;
-             flex-direction: column;
-             font-family: sans-serif;
-             font-size: larger;
-           
-        }
-        input{
-            align-items: center;
-            margin-top: 5px;
-            height: 40px;
-            border: .5px black solid;
-            border-radius: 5px;
-        }
-       .btn{
-            border: black 2px solid;
-            margin-top: 5px;
-            height: 40px;
-            color: white;
-            font-size: large;
-            font-family: sans-serif;
-            background-color: black;
-            transition: none;
-
-        }
-
-        .btn:hover {
-  background: #444;
-}
-
-        label{
-            margin-top: 5px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <title>Item Lister</title>
 </head>
 <body>
- <div class="container-lg"  class="container" >
-    <form action="#"   id="my-form" >
-        <h1>Add User</h1>
-        <div class="msg"></div>
-        <label for=""> Name: </label>
-        <input type="text" name="username" id="name" >
-        <label for=""> Email: </label>
-        <input type="email" name="Email ID" id="email">
-        <button class="btn" type="submit" value="Submit">Submit</button>
+  <header id="main-header" class="bg-success text-white p-4 mb-3">
+    <div class="container">
+      <h1 id="header-title">Item Lister <span style="display:none">123</span></h1>
+    </div>
+  </header>
+  <div class="container">
+   <div id="main" class="card card-body">
+    <h2 class="title">Add Items</h2>
+    <form class="form-inline mb-3">
+      <input type="text" class="form-control mr-2">
+      <input type="submit" class="btn btn-dark" value="Submit">
     </form>
+    <h2 class="title">Items</h2>
+    <ul id="items" class="list-group">
+      <li class="list-group-item">Item 1</li>
+      <li class="list-group-item">Item 2</li>
+      <li class="list-group-item">Item 3</li>
+      <li class="list-group-item">Item 4</li>
+    </ul>
+   </div>
+  </div>
 
-    <ul id="users"></ul>
-
-</div>
-
-    <script src="form.js">
-      
-    </script>
 </body>
 </html>
+index.html
+Displaying index.html.
