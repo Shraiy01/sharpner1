@@ -24,6 +24,7 @@
                 <li class="list-group-item">Item 2</li>
                 <li class="list-group-item">Item 3</li>
                 <li class="list-group-item">Item 4</li>
+                <li>Item 5</li>
             </ul>
         </div>
     </div>
@@ -43,11 +44,36 @@
 //     list[i].style.fontWeight='bold';
 // }
 
-var li=document.getElementsByTagName('li');
-li[1].style.backgroundColor='yellow';
+// var li=document.getElementsByTagName('li');
+// li[1].style.backgroundColor='yellow';
 
-li[2].style.fontSize='80px';
+// li[2].style.fontSize='80px';
+// li[0].textContent='Hello 1';
+// console.log(li[0]);
 
+// for(var i=0;i<li.length;i++)
+// {
+//     li[i].style.backgroundColor='grey'
+// }
+
+var li=document.querySelector('li:nth-child(2)');
+
+// li.style.backgroundColor='green';
+
+var li=document.querySelector('.list-group-item:nth-child(3)');
+
+// li.textContent='';
+
+var list=document.querySelectorAll('li');
+
+list[1].style.color='green';
+
+var odd=document.querySelectorAll('.list-group-item:nth-child(odd)');
+
+for(var i=0;i<odd.length;i++)
+{
+    odd[i].style.backgroundColor='green';
+}
     </script>
     
 </body>
