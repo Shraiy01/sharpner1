@@ -24,6 +24,9 @@
         var form=document.getElementById('form')
      
         var itemdata=document.getElementById('list');
+        
+        itemdata.addEventListener('click',removeList);
+
 
         function displaylist(obj)
          {
@@ -31,13 +34,40 @@
              
             var li=document.createElement('li');
             li.className='list-group-item';
+            
             li.appendChild(document.createTextNode(JSON.stringify(obj)));
 
+            var btn =document.createElement('button');
+            btn.className='btn btn-danger btn-sm delete';
+            var text=document.createTextNode('Delete');
+            btn.appendChild(text);
+            li.appendChild(btn);
+            
             console.log(li)
             
             itemdata.appendChild(li);
 
          }
+         
+       
+
+        
+
+         function removeList(e)
+         {
+
+            if(e.target.classList.contains('delete'))
+            {
+               if(confirm('Are you sure??'))
+               {
+                  var get=e.target.parentElement;
+                  get.remove();
+                  localStorage.removeItem('data');
+               }
+
+            }
+         }
+
 
          function addtolocalstorage(my_obj)
 
