@@ -18,15 +18,18 @@
         </form>
 
         <h2>Stored Data</h2>
-        <ul id="list"></ul>
+        <ul id="list">
+           
+        </ul>
     </div>
     <script>
+        var my_obj;
         var form=document.getElementById('form')
      
         var itemdata=document.getElementById('list');
         
         itemdata.addEventListener('click',removeList);
-
+        itemdata.addEventListener('click',editItem);
 
         function displaylist(obj)
          {
@@ -38,10 +41,16 @@
             li.appendChild(document.createTextNode(JSON.stringify(obj)));
 
             var btn =document.createElement('button');
-            btn.className='btn btn-danger btn-sm delete';
+            btn.className='btn btn-danger btn-sm delete ms-2';
             var text=document.createTextNode('Delete');
             btn.appendChild(text);
+            var edit=document.createElement('button');
+            edit.className='btn btn-danger btn-sm edit ms-2';
+            edit.appendChild(document.createTextNode('Edit'));
+
             li.appendChild(btn);
+            li.appendChild(edit);
+
             
             console.log(li)
             
@@ -49,9 +58,46 @@
 
          }
          
-       
+         function submit(e)
+         {
+            e.preventDefault();
+           
+            var userName=document.getElementById('uName');
+            var email=document.getElementById('Email');
 
-        
+            var phone=document.getElementById('num');
+
+            my_obj={
+                name:userName.value,
+                email:email.value,
+                phone:phone.value
+             }
+            
+             addtolocalstorage(my_obj)
+
+             displaylist(my_obj)
+
+             userName.value="";
+             email.value="";
+             phone.value="";
+
+           
+         }
+
+        function editItem(e)
+        { 
+            if(e.target.classList.contains('edit'))
+            {
+                localStorage.removeItem('data');
+                var remove=e.target.parentElement;
+                remove.remove();
+                document.getElementById('uName').value=my_obj.name;
+                document.getElementById('Email').value=my_obj.email;   
+                document.getElementById('num').value=my_obj.phone;  
+       
+            }
+
+        }
 
          function removeList(e)
          {
@@ -82,31 +128,7 @@
          form.addEventListener('submit',submit);
 
          
-         function submit(e)
-         {
-            e.preventDefault();
-           
-            var userName=document.getElementById('uName');
-            var email=document.getElementById('Email');
-
-            var phone=document.getElementById('num');
-         
-            let my_obj={
-                name:userName.value,
-                email:email.value,
-                phone:phone.value
-             }
-            
-             addtolocalstorage(my_obj)
-
-             displaylist(my_obj)
-
-             userName.value="";
-             email.value="";
-             phone.value="";
-
-           
-         }
+        
          
          
       
