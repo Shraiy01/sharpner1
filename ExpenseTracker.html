@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Expense tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+
+    <style>
+        
+    </style>
+</head>
+<body>
+   <header class="bg-secondary p-4 mb-3">
+       <div class="container">
+           <h1>Expense Tracker App</h1>
+       </div>
+   </header> 
+   <div class="container card card-body bg-light">
+    <form action="" id="form"  class="form-check-inline mb-3 p-3 ">
+
+        <label for="" class="form-label font-monospace fs-2" >Expense amount</label>
+        <input type="number" name="" id="amt" class="form-control ">
+
+
+        <label for="" class="form-label font-monospace fs-2 ">Description</label>
+        <input list="browsers" name="browser" id="des" class="form-control " style="cursor: pointer;" > 
+            <datalist id="browsers">
+              <option value="Petrol">
+              <option value="Pizza">
+              <option value="Diesel">
+              <option value="Vacations">
+              <option value="Cloths">
+            </datalist>
+
+
+        <label for="" class="form-label font-monospace fs-2">category</label>
+        <input list="category" name="" id="cate" class="form-control" style="cursor: pointer">
+        <datalist id="category">
+            <option value="Fuels"></option>
+            <option value="Food"></option>
+            <option value="Shopping"></option>
+            <option value="Holiday"></option>
+        </datalist>
+                
+        <input type="submit" class="btn btn-dark mt-3 fs-3" value="submit">
+       
+    </form>
+
+    <ol id="list">
+       
+    </ol>
+
+   </div>
+
+   <script>
+    var my_obj;
+      var li=document.getElementById('list');
+      var form=document.getElementById('form');
+      var amt=document.getElementById('amt');
+      var des=document.getElementById('des');
+      var cate=document.getElementById('cate');
+
+      form.addEventListener('submit',additem)
+
+      function additem(e)
+      {
+        e.preventDefault();
+
+        var item=document.createElement('li');
+
+        item.className='list-group-item';
+
+        item.appendChild(document.createTextNode(amt.value +', '));
+      
+        item.appendChild(document.createTextNode(cate.value +', '));
+     
+        
+        item.appendChild(document.createTextNode(des.value +' '));
+        
+            var btn =document.createElement('button');
+            btn.className='btn btn-danger btn-sm delete ms-2';
+            var text=document.createTextNode('Delete');
+            btn.appendChild(text);
+            var edit=document.createElement('button');
+            edit.className='btn btn-danger btn-sm edit ms-2';
+            edit.appendChild(document.createTextNode('Edit'));
+         
+            item.appendChild(btn)
+            item.appendChild(edit)
+
+        
+            li.appendChild(item);
+
+             my_obj={
+                amount:amt.value,
+                desription:des.value,
+                category:cate.value
+            }
+
+            addtoLocalstorge(my_obj);
+
+            amt.value=" ";
+            des.value=" ";
+            cate.value=" ";
+
+            
+        
+      }
+
+      li.addEventListener('click',deleteItem);
+      li.addEventListener('click',editItem);
+
+      function deleteItem(e){
+        e.preventDefault();
+
+        if(e.target.classList.contains('delete')){
+
+            if(confirm('Are you sure??'))
+               {
+                  var get=e.target.parentElement;
+                  get.remove();
+                  localStorage.removeItem('E');
+               
+               }
+        }
+      }
+      
+     function editItem(e)
+     {
+        e.preventDefault();
+
+        if(e.target.classList.contains('edit'))
+        {
+            localStorage.removeItem('E');
+              var a=e.target.parentElement;
+               a.remove()
+              document.getElementById('amt').value=my_obj.amount;
+              document.getElementById('des').value=my_obj.desription;
+              document.getElementById('cate').value=my_obj.category;
+
+        }
+     }
+
+      function addtoLocalstorge(my_obj)
+      {
+        const existingData = JSON.parse(localStorage.getItem("E")) || [];
+           existingData.push(my_obj);
+           localStorage.setItem("E",JSON.stringify(existingData))
+      }
+
+
+   </script>
+</body>
+</html> 
