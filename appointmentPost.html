@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container card card-body">
+        <form class="form-check-inline m-4" id="form" >
+            <label class="font-monospace">Name:</label>
+            <input type="text" name="" class="form-control" id="uName">
+            <label class="font-monospace">Email:</label>
+            <input type="email" class="form-control" id="Email">
+            <label class="font-monospace">Phone:</label>
+            <input type="number" class="form-control"  id="num">
+            <button class="btn btn-dark m-2" type="submit">Submit</button>
+        </form>
+
+        <h2>Stored Data</h2>
+        <ul id="list">
+           
+        </ul>
+    </div>
+    s<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script>
+        var my_obj;
+        var form=document.getElementById('form')
+     
+        var itemdata=document.getElementById('list');
+        
+        itemdata.addEventListener('click',removeList);
+        itemdata.addEventListener('click',editItem);
+
+        function displaylist(obj)
+         {
+            
+             
+            var li=document.createElement('li');
+            li.className='list-group-item';
+            
+            li.appendChild(document.createTextNode(JSON.stringify(obj)));
+
+            var btn =document.createElement('button');
+            btn.className='btn btn-danger btn-sm delete ms-2';
+            var text=document.createTextNode('Delete');
+            btn.appendChild(text);
+            var edit=document.createElement('button');
+            edit.className='btn btn-danger btn-sm edit ms-2';
+            edit.appendChild(document.createTextNode('Edit'));
+
+            li.appendChild(btn);
+            li.appendChild(edit);
+
+            
+            console.log(li)
+            
+            itemdata.appendChild(li);
+
+         }
+         
+         function submit(e)
+         {
+            e.preventDefault();
+           
+            var userName=document.getElementById('uName');
+            var email=document.getElementById('Email');
+
+            var phone=document.getElementById('num');
+
+            my_obj={
+                name:userName.value,
+                email:email.value,
+                phone:phone.value
+             }
+            
+             post(my_obj)
+
+             displaylist(my_obj)
+
+             userName.value="";
+             email.value="";
+             phone.value="";
+
+           
+         }
+
+        function editItem(e)
+        { 
+            if(e.target.classList.contains('edit'))
+            {
+                localStorage.removeItem('data');
+                var remove=e.target.parentElement;
+                remove.remove();
+                document.getElementById('uName').value=my_obj.name;
+                document.getElementById('Email').value=my_obj.email;   
+                document.getElementById('num').value=my_obj.phone;  
+       
+            }
+
+        }
+
+         function removeList(e)
+         {
+
+            if(e.target.classList.contains('delete'))
+            {
+               if(confirm('Are you sure??'))
+               {
+                  var get=e.target.parentElement;
+                  get.remove();
+                  localStorage.removeItem('data');
+               }
+
+            }
+         }
+
+
+         function post(my_obj)
+
+         {
+            axios.post('https://crudcrud.com/api/2479a87f6f1b408c89fae07f4d604bad/dataapp',{
+                title:my_obj
+            }).then(res=>console.log(res))
+
+           
+         }
+
+
+         form.addEventListener('submit',submit);
+    </script>
+</body>
+</html>
