@@ -25,12 +25,28 @@
     s<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script>
         var my_obj;
+        
         var form=document.getElementById('form')
      
         var itemdata=document.getElementById('list');
         
         itemdata.addEventListener('click',removeList);
         itemdata.addEventListener('click',editItem);
+
+        window.addEventListener('DOMContentLoaded',()=>{
+            axios.get('https://crudcrud.com/api/da5085fc39ab40c1be05dad736b5b0ee/addData')
+            .then(res=>{
+                console.log(res)
+
+                for(var i=0;i<res.data.length;i++)
+               {
+                    displaylist(res.data[i]);
+
+               }
+            })
+
+           
+        })
 
         function displaylist(obj)
          {
@@ -119,7 +135,7 @@
          function post(my_obj)
 
          {
-            axios.post('https://crudcrud.com/api/2479a87f6f1b408c89fae07f4d604bad/dataapp',{
+            axios.post('https://crudcrud.com/api/da5085fc39ab40c1be05dad736b5b0ee/addData',{
                 title:my_obj
             }).then(res=>console.log(res))
 
@@ -128,6 +144,7 @@
 
 
          form.addEventListener('submit',submit);
+
     </script>
 </body>
 </html>
