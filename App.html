@@ -30,13 +30,13 @@
      
         var itemdata=document.getElementById('list');
         
-        itemdata.addEventListener('click',removeList);
-        itemdata.addEventListener('click',editItem);
+        // itemdata.addEventListener('click',removeList);
+       
         form.addEventListener('submit',submit);
 
         window.addEventListener('DOMContentLoaded',()=>{
 
-          axios.get('https://crudcrud.com/api/249a9cc8617f4b9aa1ca73e6d9c8d73b/datalist')
+          axios.get('https://crudcrud.com/api/665c218efaad4ec98777372af327bc2a/datalist')
           .then(response => {
            console.log(response)
           for (var i =0; i <response.data.length; i++){
@@ -57,18 +57,32 @@
             const parentNode=document.getElementById('list')
             const childHtml=`<li id=${user._id}> ${user.email}-${user.name} ${user.phone} 
                               <button onClick=deleteuser('${user._id}')>Delete</button>
-                              <button onClick=deleteuser('${user._id}')>ID</button>`
+                              <button onClick=edititem('${user.name}','${user.email}','${user.phone}','${user._id}')>Edit</button>
+                              </li>`
 
              parentNode.innerHTML=parentNode.innerHTML+childHtml;                 
 
         }
 
+        function edititem(name,email,phone,userid)
+        { 
+            
+                document.getElementById('uName').value =name;
+                document.getElementById('Email').value =email;   
+                document.getElementById('num').value =phone;  
+
+                deleteuser(userid);
+
+        }
+
+
         function deleteuser(userid)
         {
-            axios.delete(`https://crudcrud.com/api/249a9cc8617f4b9aa1ca73e6d9c8d73b/datalist/${userid}`)
+            axios.delete(`https://crudcrud.com/api/665c218efaad4ec98777372af327bc2a/datalist/${userid}`)
             .then(res=>removeuser(userid))
             .catch(err=>console.log(err))
         }
+
         function removeuser(userid)
         {
             const parentNode=document.getElementById('list')
@@ -79,39 +93,39 @@
             }
         }
 
-        function displaylist(obj)
-         {
+        // function displaylist(obj)
+        //  {
 
            
-            var li=document.createElement('li');
-            li.className='list-group-item';
+        //     var li=document.createElement('li');
+        //     li.className='list-group-item';
             
       
-            var data=document.createTextNode(`${obj.name} ${obj.email}`)
+        //     var data=document.createTextNode(`${obj.name} ${obj.email}`)
 
-            li.appendChild(data);
+        //     li.appendChild(data);
 
-            var btn =document.createElement('button');
-            btn.className='btn btn-danger btn-sm delete ms-2';
+        //     var btn =document.createElement('button');
+        //     btn.className='btn btn-danger btn-sm delete ms-2';
             
-            var text=document.createTextNode('Delete');
-            btn.appendChild(text);
-            var edit=document.createElement('button');
-            edit.className='btn btn-danger btn-sm edit ms-2';
+        //     var text=document.createTextNode('Delete');
+        //     btn.appendChild(text);
+        //     var edit=document.createElement('button');
+        //     edit.className='btn btn-danger btn-sm edit ms-2';
             
-            edit.appendChild(document.createTextNode('Edit'));
+        //     edit.appendChild(document.createTextNode('Edit'));
 
-            li.appendChild(btn);
-            li.appendChild(edit);
-
-            
-            console.log(li)
-            
+        //     li.appendChild(btn);
+        //     li.appendChild(edit);
 
             
-            itemdata.appendChild(li);
+        //     console.log(li)
+            
 
-         }
+            
+        //     itemdata.appendChild(li);
+
+        //  }
          
          function submit(e)
          {
@@ -129,7 +143,7 @@
                 phone:phone.value
              }
 
-              axios.post('https://crudcrud.com/api/249a9cc8617f4b9aa1ca73e6d9c8d73b/datalist',my_obj)
+              axios.post('https://crudcrud.com/api/665c218efaad4ec98777372af327bc2a/datalist',my_obj)
                 .then(res=>
                 {
                    ShowUserOnscreen(res.data.my_obj);
@@ -142,44 +156,27 @@
            
          }
 
-        function editItem(e)
-        { 
+        
+        //  function removeList(e)
+        //  {
+
+        //     if(e.target.classList.contains('delete'))
+        //     {
               
+        //         const s=_id;
 
-            if(e.target.classList.contains('edit'))
-            {
-                
-                var remove=e.target.parentElement;
-                remove.remove();
-
-                document.getElementById('uName').value=my_obj.name;
-                document.getElementById('Email').value=my_obj.email;   
-                document.getElementById('num').value=my_obj.phone;  
-       
-            }
-
-        }
-
-         function removeList(e)
-         {
-
-            if(e.target.classList.contains('delete'))
-            {
-              
-                const s=_id;
-
-               if(confirm('Are you sure??'))
-               {
-                var get=e.target.parentElement;
-                  get.remove();
+        //        if(confirm('Are you sure??'))
+        //        {
+        //         var get=e.target.parentElement;
+        //           get.remove();
                   
-                  axios.delete('https://crudcrud.com/api/249a9cc8617f4b9aa1ca73e6d9c8d73b/datalist')
-                  .then(res=>ShowUserOnscreen(res))
-                   .catch(err=>console.log(err))
-               }
+        //           axios.delete('https://crudcrud.com/api/3560499338024ab0a800a24405c58e4e/datalist')
+        //           .then(res=>ShowUserOnscreen(res))
+        //            .catch(err=>console.log(err))
+        //        }
 
-            }
-         }
+        //     }
+        //  }
 
 
         
