@@ -54,3 +54,4 @@ premovie().then(t=>console.log(`Person3: Shows ${t}`));
 
 console.log("Person4: Shows ticket")
 console.log("Person5: Shows ticket")
+
