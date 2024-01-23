@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Expense tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    
+    <style>
+        
+    </style>
+</head>
+<body>
+   <header class="bg-secondary p-4 mb-3">
+       <div class="container">
+           <h1>Expense Tracker App</h1>
+       </div>
+   </header> 
+   <div class="container card card-body bg-light">
+    <form action="" id="form"  class="form-check-inline mb-3 p-3 ">
+
+        <label  class="form-label font-monospace fs-2" >Selling Price</label>
+        <input type="number" name="" id="amt" class="form-control ">
+
+
+        <label  class="form-label font-monospace fs-2 ">Product name</label>
+        <input  name="browser" id="name" class="form-control"  > 
+            <!-- <datalist id="browsers">
+              <option value="Petrol">
+              <option value="Pizza">
+              <option value="Diesel">
+              <option value="Vacations">
+              <option value="Cloths">
+            </datalist> -->
+
+
+        <label for="" class="form-label font-monospace fs-2">category</label>
+        <input list="category" name="" id="cate" class="form-control" style="cursor: pointer">
+        <datalist id="category">
+            <option value="Electronics"></option>
+            <option value="Food"></option>
+            <option value="Cloths"></option>
+            <option value="Asseciories"></option>
+        </datalist>
+                
+        <input type="submit" class="btn btn-dark mt-3 fs-3" value="submit">
+       
+    </form>
+
+    <ol id="list">
+       
+    </ol>
+
+   </div>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+   <script>
+      
+       window.addEventListener('DOMContentLoaded',()=>{
+        axios.get('https://crudcrud.com/api/6481244b876a438484ecd1cb35daa528/cart')
+        .then(res=>{
+          console.log(res)
+          for(var i=0;i<res.data.length;i++)
+          {
+             ShowOnScreen(res.data[i]);
+          }
+        })
+       })
+
+     var my_obj;
+      var li=document.getElementById('list');
+      var form=document.getElementById('form');
+     
+
+
+      form.addEventListener('submit',additem)
+
+      function ShowOnScreen(data)
+      {
+
+            console.log(data)
+        
+            var item=document.createElement('li');
+
+            item.className='list-group-item';
+            item.setAttribute('id',data._id)
+
+            item.appendChild(document.createTextNode(`${data.amount} ${data.Product_name} ${data.category}`))
+
+        
+            var btn =document.createElement('button');
+            btn.className='btn btn-danger btn-sm delete ms-2';
+            var text=document.createTextNode('Delete');
+            btn.appendChild(text);
+
+            btn.addEventListener('click',function()
+            {
+                removeOrder(`${data._id}`)
+            })
+
+            var edit=document.createElement('button');
+            edit.className='btn btn-danger btn-sm edit ms-2';
+            edit.appendChild(document.createTextNode('Edit'));
+            
+            edit.addEventListener('click',function()
+            {
+              editOrder(`${data.amount}`,`${data.Product_name}`,`${data.category}`,`${data._id}`)
+            })
+         
+            item.appendChild(btn)
+            item.appendChild(edit)
+
+        
+            li.appendChild(item);
+
+            amt.value='';
+            name.value='';
+            cate.value='';
+
+      }
+      function editOrder(amount,name,category,id)
+     {
+               document.getElementById('amt').value= amount;
+               document.getElementById('name').value= name;
+              document.getElementById('cate').value = category;
+
+              removeOrder(id);
+     }
+       
+      function removeOrder(id)
+      {
+          console.log(id)
+
+          var get=document.getElementById(id);
+          get.remove();
+
+          axios.delete(`https://crudcrud.com/api/6481244b876a438484ecd1cb35daa528/cart/${id}`)
+          .then(res=>console.log(res))
+          .catch(err=>console.log(err))
+      }
+
+      
+
+      function additem(e)
+      {
+        e.preventDefault();
+
+        var amt=document.getElementById('amt');
+        var name=document.getElementById('name');
+        var cate=document.getElementById('cate');
+
+             my_obj={
+                amount:amt.value,
+                Product_name:name.value,
+                category:cate.value
+            }
+
+            axios.post('https://crudcrud.com/api/6481244b876a438484ecd1cb35daa528/cart',my_obj)
+            .then(res=>ShowOnScreen(res.data))
+            .catch(err=>console.log(err))
+
+            
+            
+        
+      }
+
+      
+
+     
+      
+    
+     
+
+
+   </script>
+</body>
+</html> 
