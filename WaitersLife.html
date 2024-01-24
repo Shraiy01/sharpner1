@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Expense tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    
+    <style>
+      *{
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+     
+      header{
+        height: 80px;
+        overflow: hidden;
+        font-size: 5px;
+      }
+
+      #main{
+        height: 400px;
+        width: 700px;
+       
+      }
+        .option{
+          display: block;
+          font-size: 18px;
+          border: 2px black solid;
+          border-radius: 3px;
+
+        }
+    </style>
+</head>
+<body>
+   <header class="bg-secondary p-4 mb-3">
+       <div class="container">
+           <h1>Expense Tracker App</h1>
+       </div>
+   </header> 
+   <div id="main" class="container card card-body bg-light">
+
+    <form action="" id="form"  class="form-check-inline mb-3 p-3 ">
+
+        <label class="form-label font-monospace fs-2">Price</label>
+        <input type="number" id="amt" class="form-control">
+
+
+        
+        <label for="" class="form-label font-monospace fs-2 ">Choose Dish</label>
+        <input list="dishes" name="browser" id="dname" class="form-control " style="cursor: pointer;" > 
+            <datalist id="dishes">
+              <option value="Paneer Tikka">
+              <option value="Pizza">
+              <option value="Noodles">
+              <option value="Momos">
+              <option value="Icecream">
+            </datalist>
+    
+        <label for="" class="form-label font-monospace fs-2">Choose Table</label>
+        <select name="category" id="cate" class="option">
+          <option value="">Select Table</option>
+          <option value="Table 1">Table 1</option>
+          <option value="Table 2">Table 2</option>
+          <option value="Table 3">Table 3</option>
+        </select>
+        <input type="submit" class="btn btn-dark mt-3 fs-6" value="submit">
+       
+    </form>
+    <div>
+       <h1>Tables</h1>
+        
+
+       <h3>Table 1</h3>
+       <0l id="t1" >
+      
+       </0l>
+       
+       <h3>Table 2</h3>
+       <ol id="t2" >
+        
+       </ol>
+
+       <h3>Table 3</h3>
+       <ol id="t3" >
+      
+       </ol>
+    
+
+    </div>
+
+   
+
+   </div>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+   <script>
+      // when ever page load it fetch data from api
+       window.addEventListener('DOMContentLoaded', ()=>{
+        
+        axios.get('https://crudcrud.com/api/30d5860cf90e4396b4b6f741d4f14fba/Order')
+         .then(res=>{
+        console.log(res)
+        for(var i=0;i<res.data.length;i++)
+          {
+             ShowOnScreen(res.data[i]);
+          }
+        })
+    })
+
+      
+      var form=document.getElementById('form');
+     
+
+    //  event listner on form 
+      form.addEventListener('submit',additem)
+
+
+    // this shows data on screen as list on load and on submit this function triggers
+      function ShowOnScreen(data)
+      {
+
+            console.log(data)
+        
+            var item=document.createElement('li');
+          
+
+            item.className='list-group-item';
+            item.setAttribute('id',data._id)
+            
+            item.appendChild(document.createTextNode(`${data.amount} ${data.table} ${data.dishname}`))
+
+        
+            var btn =document.createElement('button');
+            btn.className='btn btn-danger btn-sm delete ms-2';
+            var text=document.createTextNode('Delete');
+
+            btn.appendChild(text);
+            btn.addEventListener('click',function()
+            {
+                removeOrder(`${data._id}`)
+            })
+         
+            item.appendChild(btn)
+            var list=document.getElementById('t1')
+            var list1=document.getElementById('t2')
+            var list2=document.getElementById('t3')
+
+            if(data.table=='Table 1')
+            {
+                list.appendChild(item);
+            }
+            if(data.table=='Table 2')
+            {
+              list1.appendChild(item);
+            }
+            if(data.table=='Table 3'){
+              list2.appendChild(item)
+            }
+
+         
+
+      }
+
+    //  this function trigger when delte button is pressed 
+      function removeOrder(id)
+      {
+          console.log(id)
+
+          var get=document.getElementById(id);
+          get.remove();
+
+          axios.delete(`https://crudcrud.com/api/30d5860cf90e4396b4b6f741d4f14fba/Order/${id}`)
+          .then(res=>console.log(res))
+          .catch(err=>console.log(err))
+      }
+
+      
+
+      function additem(e)
+      {
+        e.preventDefault();
+
+        var amt=document.getElementById('amt');
+        var dname=document.getElementById('dname');
+        var cate=document.getElementById('cate');
+
+        var my_obj={
+                amount:amt.value,
+                dishname:dname.value,
+                table:cate.value
+            }
+            amt.value='';
+            dname.value='';
+            cate.value='';
+            console.log(my_obj)
+
+            axios.post('https://crudcrud.com/api/30d5860cf90e4396b4b6f741d4f14fba/Order',my_obj)
+            .then(res=>ShowOnScreen(res.data))
+            .catch(err=>console.log(err))
+      }
+   </script>
+</body>
+</html> 
